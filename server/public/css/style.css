@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+html {
+  width: 100%;
+  height: 100%; }
+  html body {
+    font-family: 'Noto Sans', sans-serif;
+    background-image: url(../img/wp.jpg);
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat; }
+    html body h1, html body h2 {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      width: 700px;
+      padding: 10px 20px 0 20px; }
+    html body h1 {
+      font-size: 68px;
+      margin: 200px 0 0 400px; }
+    html body h2 {
+      font-size: 38px / 1.8;
+      margin: 0 0 0 400px;
+      padding-bottom: 10px; }
+    html body p:first-of-type {
+      margin-top: 24px; }
+    html body p strong {
+      text-transform: uppercase; }
+    html body p, html body code {
+      color: #fff;
+      width: 500px;
+      background-color: rgba(0, 0, 0, 0.6);
+      margin: 0 0 0 400px;
+      padding: 10px 20px 0 20px; }
+    html body code {
+      display: block;
+      padding-bottom: 10px; }
+    html body div#sendView {
+      color: #fff;
+      width: 500px;
+      background-color: rgba(0, 0, 0, 0.6);
+      margin: 0 0 0 400px;
+      padding: 10px 20px 0 20px; }
+    html body div#receiveView {
+      color: #fff;
+      width: 500px;
+      background-color: rgba(0, 0, 0, 0.6);
+      margin: 0 0 0 400px;
+      padding: 10px 20px 0 20px; }
+  html a {
+    color: #00B7FF; }

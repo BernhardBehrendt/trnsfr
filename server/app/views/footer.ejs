@@ -1,0 +1,107 @@
+<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+<script src="components/jquery/dist/jquery.min.js"></script>
+<script src="components/dropzone/dist/min/dropzone.min.js"></script>
+<script src="components/filesaver/filesaver.min.js"></script>
+
+
+<script src="components/cryptojslib/components/core-min.js "></script>
+<script src="components/cryptojslib/rollups/aes.js"></script>
+<!--<script src="components/cryptojslib/components/cipher-core-min.js"></script>-->
+<!--<script src="components/cryptojslib/components/enc-base64-min.js"></script>-->
+<!--<script src="components/cryptojslib/rollups/pbkdf2.js"></script>-->
+<!--<script src="components/cryptojslib/components/enc-utf16-min.js"></script>-->
+
+<script>
+    Dropzone.autoDiscover = false;
+
+    //    var enc = CryptoJS.AES.encrypt('HOHOHO', 'meinpw1');
+    //
+    //    var dev = CryptoJS.AES.decrypt(enc, 'meinpw1');
+    //
+    //    console.log(enc);
+    //    console.log(dev.toString(CryptoJS.enc.Utf8));
+
+
+    $(document)
+
+            .on('click', 'a.saveFile', function (event) {
+                event.preventDefault();
+
+                var fileId = parseInt($(this).attr('id').replace('file-', ''));
+
+                var decrypted = CryptoJS.AES.decrypt(window.data[fileId], 'meinpw1');
+
+//                console.log(decrypted.toString(CryptoJS.enc.Utf8));
+
+                console.log(CryptoJS.enc);
+
+                var byteCharacters = atob(decrypted.toString(CryptoJS.enc.Utf8));
+
+                var byteNumbers = new Array(byteCharacters.length);
+
+                for (var i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+
+                var byteArray = new Uint8Array(byteNumbers);
+
+
+                saveAs(new Blob([byteArray], {type: $(this).attr('data-type')}), $(this).attr('data-name'));
+            });
+
+    $(function () {
+        // Now that the DOM is fully loaded, create the dropzone, and setup the
+        // event listeners
+        var myDropzone = new Dropzone("#myDrz");
+        myDropzone.on("addedfile", function (file) {
+//            console.log(file.name);
+            /* Maybe display some more file information on your page */
+
+            var name = file.name;
+            var reader = new FileReader();
+
+            console.log(file);
+
+            reader.onload = function (e) {
+                console.log(e);
+            };
+
+
+            reader.onloadend = function (loadedFile) {
+
+                var typeMatch = new RegExp('^data:([a-z]+\/[a-z0-9\-]+;base64),');
+
+                var type = loadedFile.currentTarget.result.match(typeMatch);
+
+                console.log(type);
+                console.log(loadedFile.currentTarget.result.substr(0, 1000));
+
+                if (type instanceof Array) {
+                    var extData = type[1].match(/^[a-z]+\/([a-z0-9]+)/);
+
+                    if (extData instanceof Array) {
+
+                        var encrypted = CryptoJS.AES.encrypt(loadedFile.currentTarget.result.replace(typeMatch, ''), 'meinpw1');
+
+
+                        if (window.data === undefined) {
+                            window.data = [];
+                        }
+
+                        window.data.push(encrypted.toString());
+
+                        var id = window.data.length - 1;
+                        $('#preview').html('<a data-name="' + name + '" data-type="' + type[1] + '" class="saveFile" href="#" id="file-' + id + '">' + name + '</a>');
+                    }
+                } else {
+                    alert('error');
+                }
+            };
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(file);
+        });
+    })
+</script>
+</body>
+</html>
