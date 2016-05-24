@@ -20,14 +20,6 @@ function messageHandler(event) {
 
             event.data.parameter.forEach(function (item, index) {
 
-                var procCompleted = Math.round((index / items) * 100);
-
-                if (procCompleted !== completed) {
-
-                    completed = procCompleted;
-
-                    this.postMessage(completed);
-                }
 
                 item = CryptoJS.AES.decrypt(item, 'meinpw1').toString(CryptoJS.enc.Utf8);
 
@@ -37,6 +29,15 @@ function messageHandler(event) {
 
                 item = null;
                 event.data.parameter[index] = null;
+
+                var procCompleted = Math.round((index / items) * 100);
+
+                if (procCompleted !== completed) {
+
+                    completed = procCompleted;
+
+                    this.postMessage(completed);
+                }
 
             });
 
