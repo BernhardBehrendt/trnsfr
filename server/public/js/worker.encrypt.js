@@ -12,14 +12,32 @@ function messageHandler(event) {
 
         case 'encrypt':
 
-            // var typeMatch = new RegExp('^data:([a-z]+\/[a-z0-9\-]+;base64),'),
-            //     type = loadedFile.currentTarget.result.match(typeMatch),
-            //     encrypted = ;
 
-            // setTimeout(function () {
-            this.postMessage(CryptoJS.AES.encrypt(event.data.parameter, 'meinpw1').toString());
-            // }.bind(this), 5000);
+            var encrypted,
+                rawData,
+                data = [],
+                size = 10000,
+                i = size,
+                completed = 0;
 
+
+
+            rawData = event.data.parameter.substr(0, size);
+
+            while (rawData.length !== 0) {
+                data.push(CryptoJS.AES.encrypt(rawData, 'meinpw1').toString());
+                rawData = event.data.parameter.substr(i, size);
+                i += size;
+
+                if (Math.round((i / event.data.parameter.length) * 100) !== completed) {
+                    completed = Math.round((i / event.data.parameter.length) * 100);
+
+                    this.postMessage(completed);
+                }
+            }
+
+
+            this.postMessage(data);
 
             break;
 

@@ -1,2 +1,4 @@
-2016-05-15 6 hrs POC Entirely working client side implementation (file drag drop, file  api, aes en/decrypt, lacal save file)
-2016-05-15 1 hrs POC Encryption in a web worker
+2016-05-15 6:00 hrs POC Entirely working client side implementation (file drag drop, file  api, aes en/decrypt, lacal save file)
+2016-05-15 1:00 hrs POC Encryption in a web worker
+2016-05-17 0:45 Fixed a chunking issue
+2016-05-26 3:00 Reduced code  and analyzed the limitations when filling array after decryption
